@@ -1,0 +1,56 @@
+// Java Program to Increment All 
+// Element of an Array by One 
+import java.util.Scanner; 
+  
+public class Increment2 { 
+  
+    public static void main(String[] args) 
+    { 
+        System.out.println( 
+            "Enter the length of the array: "); 
+        
+        // The object of scanner class is created 
+        // in order to take the input from user 
+        Scanner sc = new Scanner(System.in); 
+        
+        int n = sc.nextInt(); 
+        
+        // Initializing the array of size that 
+        // is given by the user 
+        int[] arr = new int[n]; 
+        
+        // Calculating the length of the array 
+        int l = arr.length; 
+  
+        System.out.println( 
+            "Enter the values you want to insert in array: "); 
+        
+        // Taking the values from user 
+        for (int i = 0; i < l; i++) { 
+            arr[i] = sc.nextInt(); 
+        } 
+  
+        System.out.println( 
+            "******* BEFORE INCREMENT *******"); 
+        
+        // The elements of array before increment 
+        for (int i = 0; i < l; i++) { 
+            System.out.print(arr[i]); 
+            System.out.print(" "); 
+        } 
+  
+        // Incrementing the values of the array by 1 
+        for (int i = 0; i < l; i++) { 
+            arr[i] = arr[i] + 1; 
+        } 
+  
+        System.out.println(" "); 
+        System.out.println( 
+            "******* AFTER INCREMENT *******"); 
+        // Elements of array after increment 
+        for (int i = 0; i < l; i++) { 
+            System.out.print(arr[i]); 
+            System.out.print(" "); 
+        } 
+    } 
+}
