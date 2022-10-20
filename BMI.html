@@ -1,383 +1,137 @@
-<!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
-</head>
-
-<title>Calorie Calculator</title>
-
-<style>
-
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap');
-
-*{
-
-    margin: 0;
-
-    padding: 0;
-
-    box-sizing: border-box;
-
-}
-
-body{
-
-    width: 100%;
-
-    min-height: 100vh;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    /* background: #f5f5f5; */
-
-    background-color: #c8eff9;
-
-    font-family: 'roboto', sans-serif;
-
-}
-
-.container{
-
-  width: 100%;
-
-  height: 100vh;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-content: center;
-
-}
-
-.content{
-
-  width: 100%;
-
-  display: flex;
-
-  justify-content: space-around;
-
-  align-items: center;
-
-}
-
-.loader{
-
-    position: absolute;
-
-    top: 50%;
-
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 100px;
-
-    display: none;
-
-}
-
-.logo{
-
-    height: 60px;
-
-    display: block;
-
-    margin: 0 auto 50px;
-
-}
-
-.img-logo{
-
-  height: 100px;
-
-}
-
-input[type="text"],
-
-input[type="password"],
-
-input[type="email"],
-
-input[type="number"],
-
-select, option,
-
-textarea{
-
-    display: block;
-
-    width: 300px;
-
-    height: 40px;
-
-    padding: 20px;
-
-    border-radius: 5px;
-
-    background: #fff;
-
-    border: none;
-
-    outline: none;
-
-    margin: 20px 0;
-
-    text-transform: capitalize;
-
-    color: #383838;
-
-    font-size: 14px;
-
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
-
-    font-family: 'roboto', sans-serif;
-
-}
-
-select{
-
-  height: auto;
-
-  padding: 12px;
-
-}
-
-::placeholder{
-
-    color: #383838;
-
-}
-
-.submit-btn{
-
-    width: 300px;
-
-    height: 40px;
-
-    text-align: center;
-
-    line-height: 40px;
-
-    background: #383838;
-
-    color: #fff;
-
-    border-radius: 2px;
-
-    text-transform: capitalize;
-
-    border: none;
-
-    cursor: pointer;
-
-    display: block;
-
-    margin: 30px 0;
-
-}
-
-.alert-box{
-
-    width: 300px;
-
-    min-height: 150px;
-
-    background: #fff;
-
-    border-radius: 10px;
-
-    box-shadow: 0 5px 100px rgba(0, 0, 0, 0.05);
-
-    position: absolute;
-
-    top: 60%;
-
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    padding: 20px;
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    transition: 1s;
-
-}
-
-.alert-box.show{
-
-    opacity: 1;
-
-    pointer-events: all;
-
-    top: 50%;
-
-}
-
-.alert-img{
-
-    display: block;
-
-    margin: 10px auto 20px;
-
-    height: 60px;
-
-}
-
-.alert-msg{
-
-    color: #e24c4b;
-
-    font-size: 20px;
-
-    text-transform: capitalize;
-
-    text-align: center;
-
-    line-height: 30px;
-
-    font-weight: 500;
-
-}
-
-</style>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/calorie-calc.css') }}"> 
-
-<img src="{{ url_for('static', filename='img/loader.gif') }}" class="loader" alt="">
-
-<div class="container">
-
-  <div class="logo">
-
-    <a href="/" style="text-decoration: none">
-
-      <img src="{{ url_for('static', filename='img/logo.png') }}" class="img-logo" alt="">
-
-    </a>
-
-  </div>
-
-  <div class="content">
-
-    <div class="contentLeft">
-
-      <input type="text" autocomplete="off" id="name" placeholder="Name">
-
-      <input type="number" autocomplete="off" id="age" placeholder="Age">
-
-      <select name="gender" id="gender">
-
-        <option value="" selected disabled hidden>Sex - M / F</option>
-
-        <option value="M">Male</option>
-
-        <option value="F">Female</option>
-
-      </select>
-
-      <input type="number" autocomplete="off" id="height" placeholder="Height">
-
-      <input type="number" autocomplete="off" id="weight" placeholder="Weight">
-
-      <select name="imperial" id="imperial">
-
-          <option value="" selected disabled hidden>System - Imperial / Metric</option>
-
-          <option value=1>Imperial</option>
-
-          <option value=0>Metric</option>
-
-      </select>
-
-      <select name="activity" id="activity">
-
-          <option value="" selected disabled hidden>Activity Level</option>
-
-          <option value=1>1 Sedentary (little or no exercise, desk job)</option>
-
-          <option value=2>2 Lightly active (light exercise/ sports 1-3 days/week)</option>
-
-          <option value=3>3 Moderately active (moderate exercise/ sports 6-7 days/week)</option>
-
-          <option value=4>4 Very active (hard exercise every day, or exercising 2 xs/day)</option>
-
-          <option value=5>5 Extra active (hard exercise 2 or more times per day, or training for
-
-marathon, or triathlon, etc)</option>
-
-      </select>
-
-      
-
-      <select name="goals" id="goals">
-
-          <option value="" selected disabled hidden>Goals</option>
-
-          <option value=1>1 Lose weight quickly = Lose 2 lbs/week</option>
-
-          <option value=2>2 Lose weight moderately = Lose 1 lb/week</option>
-
-          <option value=3>3 Maintain weight = Maintain</option>
-
-          <option value=4>4 Gain weight slowly = Gain 0.5 lb/week, recommended for muscle gain</option>
-
-          <option value=5>5 Gain weight quickly = Gain 1 lb/week</option>
-
-      </select>
-
-    </div>
-
-    <button class="submit-btn">Show Result</button>
-
-    <div class="contentRight">
-
-      <input readonly type="text" autocomplete="off" id="bmr" placeholder="BMR - Basic Metabolic Rate">
-
-      <input readonly type="text" autocomplete="off" id="bmr-a" placeholder="BMR + A - Basic Metabolic Rate + Activity">
-
-      <input readonly type="text" autocomplete="off" id="calorie" placeholder="Final Calorie Goal">
-
-      <input readonly type="text" autocomplete="off" id="protien" placeholder="Recommended Protein Intake">
-
-    </div>
-
-  </div>
-
-  <!--  -->
-
-  <div class="alert-box">
-
-    <img src="{{ url_for('static', filename='img/error.png') }}"  class="alert-img" alt="">
-
-    <p class="alert-msg">Error message</p>
-
-  </div>
-
-</div>
-
-<script>
-
-    const loader = document.querySelector('.loader'); // select inputsconst submitBtn = document.querySelector('.submit-btn');const name = document.querySelector('#name');const age = document.querySelector('#age');const weight = document.querySelector('#weight');const imperial = document.querySelector('#imperial');const activity = document.querySelector('#activity');const goals = document.querySelector('#goals');const gender = document.querySelector('#gender');const height = document.querySelector('#height'); const bmr = document.querySelector('#bmr');const bmr_a = document.querySelector('#bmr-a');const calorie = document.querySelector('#calorie');const protien = document.querySelector('#protien'); submitBtn.addEventListener('click', () => { const ageRange = Number(age.value); const heightRange = Number(height.value) const weightRange = Number(weight.value) if (!age.value.length) { showAlert('Enter your age'); } else if (!gender.value.length) { showAlert('Enter your gender'); } else if (!height.value.length) { showAlert('Enter your height'); } else if (!weight.value.length) { showAlert('Enter your weight'); } else if (!imperial.value.length) { showAlert('Enter your metric/imperial preference'); } else if (!activity.value.length) { showAlert('Enter your activity level'); } else if (!goals.value.length) { showAlert('Enter your weightloss goal'); } else if (ageRange < 0 || ageRange > 120) { showAlert('Age must be between 0 and 120'); } else if (heightRange < 0 || heightRange > 213) { showAlert('Height must be between 0 and 213'); } else if (weightRange < 0 || weightRange > 500) { showAlert('Weight must be between 0 and 500'); } else { // submit form loader.style.display = 'block'; sendData('/calorie-calculator', { 'name': name.value, 'age': age.value, 'weight': weight.value, 'imperial': imperial.value, 'activity': activity.value, 'goals': goals.value, 'height': height.value, 'gender': gender.value }) }}) // alert functionconst showAlert = (msg) => { let alertBox = document.querySelector('.alert-box'); let alertMsg = document.querySelector('.alert-msg'); alertMsg.innerHTML = msg; alertBox.classList.add('show'); setTimeout(() => { alertBox.classList.remove('show'); }, 3001);} // send data functionconst sendData = (path, data) => { fetch(path, { method: 'post', headers: new Headers({ 'Content-Type': 'application/json' }), body: JSON.stringify(data) }).then((res) => res.json()) .then(response => { processData(response); })} const processData = (data) => { loader.style.display = "none"; console.log(data) if (data.alert) { showAlert(data.alert); } else if (data.bmr) { // result = JSON.stringify(data); bmr.value = "BMR: " + data.bmr; bmr_a.value = "BMR+A: " + data.bmr_a; calorie.value = "Recommended calorie (Kcal): " + data.calorie; protien.value = "Recommended Grams of Protein: " + data.protein; }}
-
-</script>
-
-</html>
+<! DOCTYPE html>  
+<html>  
+    <head>  
+    <meta charset="utf-8">  
+    <title>  
+         Calculator using HTML Example  
+    </title>  
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">  
+    <!-- CSS property to create interactive  
+        calculator interface -->  
+    <style>  
+    html {  
+  height: 100vh;  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  background-color: #2d3436;  
+  //background-image: linear-gradient(315deg, #8433A0 17%, #FFAC33 74%); 
+
+background-image: url('https://wallpaperaccess.com/full/834264.jpg'); 
+
+  font-family: 'Cookie', cursive;  
+}  
+.title {  
+margin-bottom: 10px;  
+padding: 5px 0;  
+font-size: 40px;  
+font-weight: bold;  
+text-align: center;  
+color: white;  
+font-family: 'Cookie', cursive;  
+}  
+input[type=button] {  
+  width: 60px;  
+  height: 60px;  
+  float: left;  
+  padding: 0;  
+  margin: 5px;  
+  box-sizing: border-box;  
+  background: #D03396;
+border: none;  
+  font-size: 30px;  
+  line-height: 30px;  
+  border-radius: 50%;  
+  font-weight: 700;  
+  color: #3F1E55;  
+  cursor: pointer;    
+}  
+input[type=text] {  
+  width: 250px;  
+  height: 60px;  
+  float: left;  
+  padding: 0;  
+  box-sizing: border-box;  
+  border: none;  
+  background: none;  
+  color: red;  
+  text-align: right;  
+  font-weight: 700;  
+  font-size: 60px;  
+  line-height: 60px;  
+  margin: 0 25px;  
+  }  
+.calculator {  
+  background-color: #ffe821;  
+  box-shadow: 0px 0px 0px 10px #666;  
+  border: 5px solid black;  
+  border-radius: 10px;  
+}  
+#display {  
+  height: 40px;  
+  text-align: right;  
+  background-color: black;  
+  border: 3px solid white;  
+  font-size: 18px;  
+  left: 2px;  
+  top: 2px;  
+  color: red;  
+}  
+.btnTop {  
+  color: white;  
+  background-color: #ffd1d3;  
+  font-size: 14px;  
+  margin: auto;  
+  width: 50px;  
+  height: 25px;  
+}     
+    </style>  
+</head>  
+<body>  
+   
+    <div class = "title"  align="center">  
+        Calculate Your Body Mass Index
+
+    </div> 
+  <div class = "title"  align="center">  
+    
+	As BMI=(Weight/Height*Height)
+    </div>     
+    <form name="Calculator" class = "calculator" >  
+<table border="2" align="center" cellpadding="15" cellspacing="12" bgcolor="#ffd1d3">  
+<tr>  
+<td>  
+<input type="text" name="Input" Size="35" id="display">  
+<br>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<input type="button" name = "one" style="font-size:30px" value=" 1 " OnClick="Calculator.Input.value += '1'">  
+<input type="button" name = "two" style = "font-size:30px" value=" 2 " OnCLick="Calculator.Input.value += '2'">  
+<input type="button" name = "three" style="font-size:30px" value=" 3 " OnClick="Calculator.Input.value += '3'">  
+<input type="button" name="add" class ="btnTop" style="font-size:30px" value=" + " OnClick="Calculator.Input.value += ' + '">  
+<br>  
+<input type="button" name = "four" style="font-size:30px" value=" 4 " OnClick="Calculator.Input.value += '4'">  
+<input type="button" name = "five" style="font-size:30px" value=" 5 " OnCLick="Calculator.Input.value += '5'">  
+<input type="button" name = "six" style="font-size:30px" value=" 6 " OnClick="Calculator.Input.value += '6'">  
+<input type="button" name = "minus" style="font-size:30px" value=" - " OnClick="Calculator.Input.value += ' - '">  
+<br>  
+<input type="button" name = "seven" style="font-size:30px" value=" 7 " OnClick="Calculator.Input.value += '7'">  
+<input type="button" name = "eight" style="font-size:30px" value=" 8 " OnCLick="Calculator.Input.value += '8'">  
+<input type="button" name = "nine" style="font-size:30px" value=" 9 " OnClick="Calculator.Input.value += '9'">  
+<input type="button" name = "mul" style="font-size:30px" value=" * "   
+OnClick="Calculator.Input.value += ' * '">  
+<br>  
+<input type="button" name = "clear" style="font-size:30px" value=" c " OnClick="Calculator.Input.value = ''">  
+<input type="button" name="zero" style="font-size:30px" value=" 0 " OnClick="Calculator.Input.value += '0'">  
+<input type="button" name="DoIt" style="font-size:30px" value=" = " OnClick="Calculator.Input.value = eval(Calculator.Input.value)">  
+<input type="button" name="div" style="font-size:30px" value=" / " OnClick="Calculator.Input.value += ' / '">  
+<br>  
+</td>  
+  
+</tr>  
+</table>  
+</form>  
+</body>  
+</html>     
