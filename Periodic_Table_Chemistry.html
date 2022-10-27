@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <title>Chemistry data app</title>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titan+One|Inconsolata">
+
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+        <style>
+
+            html, body{
+
+    overflow-x:hidden;
+
+}
+
+body{
+
+    position:relative;
+
+    margin:0;
+
+    background:#6600cc;
+
+    font-family:"Titan One";
+
+}
+
+body *{
+
+    -webkit-box-sizing:border-box;
+
+            box-sizing:border-box;
+
+}
+
+#main{
+
+    height:100vh;
+
+    width:100vw;
+
+    display:-webkit-box;
+
+    display:-ms-flexbox;
+
+    display:flex;
+
+    -webkit-box-align:center;
+
+        -ms-flex-align:center;
+
+            align-items:center;
+
+    -webkit-box-orient:vertical;
+
+    -webkit-box-direction:normal;
+
+        -ms-flex-direction:column;
+
+            flex-direction:column;
+
+}
+
+header{
+
+    padding:4%;
+
+    width:100%;
+
+    font-size:1.8em;
+
+    color:#fff;
+
+    display:-webkit-box;
+
+    display:-ms-flexbox;
+
+    display:flex;
+
+    -webkit-box-pack:center;
+
+        -ms-flex-pack:center;
+
+            justify-content:center;
+
+    -webkit-box-align:center;
+
+        -ms-flex-align:center;
+
+            align-items:center;
+
+}
+
+.input{
+
+    padding:2%;
+
+    width:96%;
+
+    background:rgba(255,255,255,0.2);
+
+    border-radius:10px;
+
+    z-index:10;
+
+    display:-webkit-box;
+
+    display:-ms-flexbox;
+
+    display:flex;
+
+    -webkit-box-align:center;
+
+        -ms-flex-align:center;
+
+            align-items:center;
+
+    -webkit-box-orient:vertical;
+
+    -webkit-box-direction:normal;
+
+        -ms-flex-direction:column;
+
+            flex-direction:column;
+
+}
+
+.input span{
+
+    width:100%;
+
+    margin:2%;
+
+    display:-webkit-box;
+
+    display:-ms-flexbox;
+
+    display:flex;
+
+    -webkit-box-pack:center;
+
+        -ms-flex-pack:center;
+
+            justify-content:center;
+
+    -webkit-box-align:center;
+
+        -ms-flex-align:center;
+
+            align-items:center;
+
+}
+
+.input span input{
+
+    padding:2%;
+
+    border:1px solid #000;
+
+    border-right:none;
+
+    border-radius:5px 0 0 5px;
+
+    outline:none;
+
+}
+
+@-webkit-keyframes alert{
+
+    0%{
+
+        -webkit-transform:translateX(-5px);
+
+                transform:translateX(-5px);
+
+    }
+
+    25%{
+
+        -webkit-transform:translateX(5px);
+
+                transform:translateX(5px);
+
+    }
+
+    50%{
+
+        -webkit-transform:translateX(-5px);
+
+                transform:translateX(-5px);
+
+    }
+
+    75%{
+
+        -webkit-transform:translateX(5px);
+
+                transform:translateX(5px);
+
+    }
+
+    100%{
+
+        -webkit-transform:translateX(-5px);
+
+                transform:translateX(-5px);
+
+    }
+
+}
+
+@keyframes alert{
+
+    0%{
+
+        -webkit-transform:translateX(-5px);
+
+                transform:translateX(-5px);
+
+    }
+
+    25%{
+
+        -webkit-transform:translateX(5px);
+
+                transform:translateX(5px);
+
+    }
+
+    50%{
+
+        -webkit-transform:translateX(-5px);
+
+                transform:translateX(-5px);
+
+    }
+
+    75%{
+
+        -webkit-transform:translateX(5px);
+
+                transform:translateX(5px);
+
+    }
+
+    100%{
+
+        -webkit-transform:translateX(-5px);
+
+                transform:translateX(-5px);
+
+    }
+
+} 
+
+.input span button{
+
+    padding:2%;
+
+    border:1px solid #000;
+
+    border-left:none;
+
+    border-radius:0 5px 5px 0;
+
+    outline:none;
+
+}
+
+.output{
+
+    padding:5%;
+
+    width:100%;
+
+}
+
+.output #loader{
+
+    padding:3%;
+
+    width:100%;
+
+    display:none;
+
+    -webkit-box-pack:center;
+
+        -ms-flex-pack:center;
+
+            justify-content:center;
+
+    -webkit-box-align:center;
+
+        -ms-flex-align:center;
+
+            align-items:center;
+
+}
+
+.output #loader span{
+
+    height:30px;
+
+    width:30px;
+
+    border:1px solid rgba(255,255,255,0.3);
+
+    border-top:1px solid rgba(255,255,255,1);
+
+    border-radius:50%;
+
+    -webkit-animation:load 0.5s ease-out infinite;
+
+            animation:load 0.5s ease-out infinite;
+
+}
+
+@-webkit-keyframes load{
+
+    from{
+
+        -webkit-transform:rotate(0deg);
+
+                transform:rotate(0deg);
+
+    }
+
+    to{
+
+        -webkit-transform:rotate(360deg);
+
+                transform:rotate(360deg);
+
+    }
+
+}
+
+@keyframes load{
+
+    from{
+
+        -webkit-transform:rotate(0deg);
+
+                transform:rotate(0deg);
+
+    }
+
+    to{
+
+        -webkit-transform:rotate(360deg);
+
+                transform:rotate(360deg);
+
+    }
+
+}
+
+.output #result{
+
+    padding:2%;
+
+    width:100%;
+
+    background:#fff;
+
+    border-radius:10px;
+
+    font-family:"Inconsolata";
+
+    display:none;
+
+    -webkit-box-align:center;
+
+        -ms-flex-align:center;
+
+            align-items:center;
+
+    -webkit-box-orient:vertical;
+
+    -webkit-box-direction:normal;
+
+        -ms-flex-direction:column;
+
+            flex-direction:column;
+
+}
+
+.output #result *{
+
+    margin:2%;
+
+}
+
+.output #result span{
+
+    text-align:center;
+
+    font-size:1.8em;
+
+}
+
+.output #result div{
+
+    padding:1%;
+
+    width:100;
+
+    display:-webkit-box;
+
+    display:-ms-flexbox;
+
+    display:flex;
+
+    -webkit-box-pack:center;
+
+        -ms-flex-pack:center;
+
+            justify-content:center;
+
+    -webkit-box-align:start;
+
+        -ms-flex-align:start;
+
+            align-items:flex-start;
+
+    -webkit-box-orient:vertical;
+
+    -webkit-box-direction:normal;
+
+        -ms-flex-direction:column;
+
+            flex-direction:column;
+
+}
+
+.output #result div span{
+
+    font-size:1em;
+
+    margin:2%;
+
+    font-weight:40;
+
+} 
+
+@media only screen and (min-width:400px){
+
+    .input, .output{
+
+        width:80%;
+
+    }
+
+}
+
+@media only screen and (min-width:500px){
+
+    .input, .output{
+
+        width:495px;
+
+    }
+
+}
+
+        </style>
+
+    </head>
+
+    <body>
+
+                     
+
+        <div id="main">
+
+        
+
+        
+
+            <header>
+
+            
+
+                <span>Chemistry data app</span>
+
+                
+
+            </header>
+
+            
+
+            
+
+            <section class="input">
+
+            
+
+            <span id="Message">Enter a name of an element</span>
+
+            
+
+            <span id="data_field">
+
+            
+
+            <input type="text" placeholder="eg- Helium" id="element"/>
+
+            
+
+            <button id="search">Search</button>
+
+            
+
+            </span>
+
+                
+
+            </section>
+
+            
+
+            
+
+            <section class="output">
+
+                
+
+                <div id="loader">
+
+                    
+
+                    <span></span>
+
+                    
+
+                </div>
+
+                
+
+                <div id="result">
+
+                    
+
+                </div>
+
+                
+
+            </section>           
+
+                        
+
+        </div>        
+
+        <script>
+
+            window.onload=()=>{
+
+let result=document.querySelector("#result");
+
+let element=document.querySelector("#element");
+
+let search=document.querySelector("#search");
+
+let loader=document.querySelector("#loader");
+
+let data_field=document.querySelector("#data_field");
+
+let message=document.querySelector("#Message");
+
+let info;
+
+let name;
+
+let output;
+
+let data=()=>{
+
+loader.style.display="flex";
+
+result.style.display="none";
+
+name=element.value;
+
+output=`${name.charAt(0).toUpperCase()}${name.substr(1).toLowerCase()}`.replace(" ","");
+
+fetch(`https://chemistrydata.herokuapp.com/elements/${output}`)
+
+.then(res=>res.json())
+
+.then(data=>{
+
+if(data.symbol==undefined){
+
+    data_field.style.animation="alert 0.6s";
+
+    message.style.color="#f00"
+
+    message.textContent="Invalid element name"
+
+    element.style.borderColor="#f00";
+
+    search.style.borderColor="#f00";
+
+    setTimeout(()=>{
+
+        element.style.borderColor="#000";
+
+        search.style.borderColor="#000";
+
+        data_field.style.animation="";
+
+        message.style.color="#000"
+
+        message.textContent="Enter a name of an element"
+
+    },1000)
+
+    loader.style.display="none";
+
+}
+
+else{
+
+    info=`
+
+    <span class="title">${output}</span>
+
+    <div>
+
+    <span>Symbol: ${data.symbol}</span>  
+
+    <span>Number: ${data.number}</span>
+
+    <span>Phase: ${data.phase}</span>
+
+    <span>Category: ${data.category}</span>
+
+    <span>Atomic mass: ${data.atomic_mass}</span>
+
+    <span>Boil: ${data.boil}</span>
+
+    <span>Melt: ${data.melt}</span>
+
+    <span>Density: ${data.density}</span>
+
+    <span>Discovered by: ${data.discoverd_by}</span>
+
+    <span>Named by: ${data.named_by}</span>
+
+    <span>Summary: ${data.summary}</span>
+
+    </div>
+
+    `;
+
+    
+
+    loader.style.display="none";
+
+    
+
+    result.style.display="flex";
+
+   
+
+    result.innerHTML=info;
+
+    
+
+}    
+
+});
+
+}
+
+search.addEventListener("click",data)
+
+}
+
+        </script>
+
+        
+
+    </body>
+
+</html>
